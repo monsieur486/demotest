@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import rewardCentral.RewardCentral;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class RewardsService {
@@ -35,8 +36,8 @@ public class RewardsService {
   }
 
   public void calculateRewards(User user) {
-    List<VisitedLocation> userLocations = user.getVisitedLocations();
     List<Attraction> attractions = gpsUtil.getAttractions();
+    CopyOnWriteArrayList<VisitedLocation> userLocations = new CopyOnWriteArrayList<>(user.getVisitedLocations());
 
     for (VisitedLocation visitedLocation : userLocations) {
       for (Attraction attraction : attractions) {
