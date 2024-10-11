@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import rewardCentral.RewardCentral;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
@@ -20,8 +19,8 @@ public class RewardsService {
   private final RewardCentral rewardsCentral;
   // proximity in miles
   private final int defaultProximityBuffer = 10;
-  private int proximityBuffer = defaultProximityBuffer;
   private final int attractionProximityRange = 200;
+  private int proximityBuffer = defaultProximityBuffer;
 
   public RewardsService(GpsUtil gpsUtil, RewardCentral rewardCentral) {
     this.gpsUtil = gpsUtil;

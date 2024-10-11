@@ -4,7 +4,6 @@ import com.openclassrooms.tourguide.dto.AttractionNearbyUserDto;
 import com.openclassrooms.tourguide.service.TourGuideService;
 import com.openclassrooms.tourguide.user.User;
 import com.openclassrooms.tourguide.user.UserReward;
-import gpsUtil.location.Attraction;
 import gpsUtil.location.VisitedLocation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -36,8 +36,8 @@ public class TourGuideService {
   // Database connection will be used for external users, but for testing purposes
   // internal users are provided and stored in memory
   private final Map<String, User> internalUserMap = new HashMap<>();
-  boolean testMode = true;
   private final Logger logger = LoggerFactory.getLogger(TourGuideService.class);
+  boolean testMode = true;
 
   public TourGuideService(GpsUtil gpsUtil, RewardsService rewardsService) {
     this.gpsUtil = gpsUtil;
@@ -110,7 +110,7 @@ public class TourGuideService {
 
     nearbyAttractions.sort(Comparator.comparing(AttractionNearbyUserDto::getDistance));
 
-    if(nearbyAttractions.size() > 5) {
+    if (nearbyAttractions.size() > 5) {
       nearbyAttractions.sort(Comparator.comparing(AttractionNearbyUserDto::getDistance));
       nearbyAttractions = nearbyAttractions.subList(0, 5);
     }
