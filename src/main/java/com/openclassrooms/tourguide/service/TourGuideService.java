@@ -1,5 +1,6 @@
 package com.openclassrooms.tourguide.service;
 
+import com.openclassrooms.tourguide.dto.AttractionNearbyUserDto;
 import com.openclassrooms.tourguide.helper.InternalTestHelper;
 import com.openclassrooms.tourguide.tracker.Tracker;
 import com.openclassrooms.tourguide.user.User;
@@ -68,6 +69,10 @@ public class TourGuideService {
     return internalUserMap.get(userName);
   }
 
+  public User getUserById(UUID userId) {
+    return internalUserMap.values().stream().filter(user -> user.getUserId().equals(userId)).findFirst().orElse(null);
+  }
+
   public List<User> getAllUsers() {
     return internalUserMap.values().stream().collect(Collectors.toList());
   }
@@ -79,7 +84,7 @@ public class TourGuideService {
   }
 
   public List<Provider> getTripDeals(User user) {
-    int cumulatativeRewardPoints = user.getUserRewards().stream().mapToInt(i -> i.getRewardPoints()).sum();
+    int cumulatativeRewardPoints = user.getUserRewards().stream().mapToInt(UserReward::getRewardPoints).sum();
     List<Provider> providers = tripPricer.getPrice(tripPricerApiKey, user.getUserId(),
             user.getUserPreferences().getNumberOfAdults(), user.getUserPreferences().getNumberOfChildren(),
             user.getUserPreferences().getTripDuration(), cumulatativeRewardPoints);
@@ -94,12 +99,20 @@ public class TourGuideService {
     return visitedLocation;
   }
 
-  public List<Attraction> getNearByAttractions(VisitedLocation visitedLocation) {
-    List<Attraction> nearbyAttractions = new ArrayList<>();
+  public List<AttractionNearbyUserDto> getNearByAttractions(VisitedLocation visitedLocation, User user) {
+    List<AttractionNearbyUserDto> nearbyAttractions = new ArrayList<>();
     for (Attraction attraction : gpsUtil.getAttractions()) {
-      if (rewardsService.isWithinAttractionProximity(attraction, visitedLocation.location)) {
-        nearbyAttractions.add(attraction);
-      }
+      int rewardPoints = rewardsService.getRewardPoints(attraction, user);
+      double distance = rewardsService.getDistance(attraction, visitedLocation.location);
+      AttractionNearbyUserDto attractionNearbyUserDto = new AttractionNearbyUserDto(attraction, visitedLocation, rewardPoints, distance);
+      nearbyAttractions.add(attractionNearbyUserDto);
+    }
+
+    nearbyAttractions.sort(Comparator.comparing(AttractionNearbyUserDto::getDistance));
+
+    if(nearbyAttractions.size() > 5) {
+      nearbyAttractions.sort(Comparator.comparing(AttractionNearbyUserDto::getDistance));
+      nearbyAttractions = nearbyAttractions.subList(0, 5);
     }
 
     return nearbyAttractions;
