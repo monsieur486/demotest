@@ -52,7 +52,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          dockerfile: Dockerfile
+          file: Dockerfile
           push: false
           tags: ${{ secrets.DOCKERHUB_USER }}/projet08:latest
       - name: login to docker hub
@@ -64,6 +64,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          dockerfile: Dockerfile
+          file: Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/projet08:latest
