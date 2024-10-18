@@ -13,6 +13,6 @@
 
 # How to run the application ?
 
-- modify ApplicationConfig.java with appropriate values
+- modify ApplicationConfig.java with appropriate values (number of users and threads)
 - run the application with the following command : 
 > mvn spring-boot:run
