@@ -1,5 +1,6 @@
 package com.openclassrooms.tourguide.service;
 
+import com.openclassrooms.tourguide.configuration.ApplicationConfiguation;
 import com.openclassrooms.tourguide.dto.AttractionNearbyUserDto;
 import com.openclassrooms.tourguide.helper.InternalTestHelper;
 import com.openclassrooms.tourguide.tracker.Tracker;
@@ -18,6 +19,7 @@ import tripPricer.TripPricer;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
+import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -161,6 +163,16 @@ public class TourGuideService {
   private Date getRandomTime() {
     LocalDateTime localDateTime = LocalDateTime.now().minusDays(new Random().nextInt(30));
     return Date.from(localDateTime.toInstant(ZoneOffset.UTC));
+  }
+
+  public void parallelListTracker(List<User> allUsers) {
+    ForkJoinPool customThreadPool = new ForkJoinPool(ApplicationConfiguation.MAX_THREAD_TRACK);
+
+    customThreadPool.submit(() -> {
+      allUsers.stream().parallel().forEach(this::trackUserLocation);
+    }).join();
+
+    customThreadPool.shutdown();
   }
 
 }

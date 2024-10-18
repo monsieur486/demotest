@@ -1,5 +1,6 @@
 package com.openclassrooms.tourguide.service;
 
+import com.openclassrooms.tourguide.configuration.ApplicationConfiguation;
 import com.openclassrooms.tourguide.user.User;
 import com.openclassrooms.tourguide.user.UserReward;
 import gpsUtil.GpsUtil;
@@ -11,6 +12,7 @@ import rewardCentral.RewardCentral;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ForkJoinPool;
 
 @Service
 public class RewardsService {
@@ -74,6 +76,16 @@ public class RewardsService {
     double nauticalMiles = 60 * Math.toDegrees(angle);
     double statuteMiles = STATUTE_MILES_PER_NAUTICAL_MILE * nauticalMiles;
     return statuteMiles;
+  }
+
+  public void parallelListRewards(List<User> allUsers) {
+    ForkJoinPool customThreadPool = new ForkJoinPool(ApplicationConfiguation.MAX_THREAD_REWARD);
+
+    customThreadPool.submit(() -> {
+      allUsers.stream().parallel().forEach(this::calculateRewards);
+    }).join();
+
+    customThreadPool.shutdown();
   }
 
 }
