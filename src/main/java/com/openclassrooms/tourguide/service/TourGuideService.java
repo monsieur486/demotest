@@ -165,7 +165,7 @@ public class TourGuideService {
     return Date.from(localDateTime.toInstant(ZoneOffset.UTC));
   }
 
-  public void parallelListTracker(List<User> allUsers) {
+  public void parallelTrackAllUsersLocation(List<User> allUsers) {
     ForkJoinPool customThreadPool = new ForkJoinPool(ApplicationConfiguation.MAX_THREAD_TRACK);
 
     customThreadPool.submit(() -> {

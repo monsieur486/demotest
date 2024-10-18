@@ -64,7 +64,7 @@ public class TestPerformance {
     //      tourGuideService.trackUserLocation(user);
     //    }
 
-    tourGuideService.parallelListTracker(allUsers);
+    tourGuideService.parallelTrackAllUsersLocation(allUsers);
     stopWatch.stop();
     tourGuideService.tracker.stopTracking();
 
@@ -90,7 +90,7 @@ public class TestPerformance {
     allUsers = tourGuideService.getAllUsers();
     allUsers.forEach(u -> u.addToVisitedLocations(new VisitedLocation(u.getUserId(), attraction, new Date())));
 
-    rewardsService.parallelListRewards(allUsers);
+    rewardsService.parallelCalculateRewardsUsersList(allUsers);
 
     for (User user : allUsers) {
       assertFalse(user.getUserRewards().isEmpty());

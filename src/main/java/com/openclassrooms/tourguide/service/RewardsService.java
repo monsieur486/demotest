@@ -78,7 +78,7 @@ public class RewardsService {
     return statuteMiles;
   }
 
-  public void parallelListRewards(List<User> allUsers) {
+  public void parallelCalculateRewardsUsersList(List<User> allUsers) {
     ForkJoinPool customThreadPool = new ForkJoinPool(ApplicationConfiguation.MAX_THREAD_REWARD);
 
     customThreadPool.submit(() -> {
