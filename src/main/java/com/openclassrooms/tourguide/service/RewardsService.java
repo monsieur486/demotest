@@ -7,6 +7,7 @@ import gpsUtil.GpsUtil;
 import gpsUtil.location.Attraction;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 import rewardCentral.RewardCentral;
 
@@ -21,16 +22,12 @@ public class RewardsService {
   private final RewardCentral rewardsCentral;
   // proximity in miles
   private final int defaultProximityBuffer = 10;
-  private final int attractionProximityRange = 200;
+  @Setter
   private int proximityBuffer = defaultProximityBuffer;
 
   public RewardsService(GpsUtil gpsUtil, RewardCentral rewardCentral) {
     this.gpsUtil = gpsUtil;
     this.rewardsCentral = rewardCentral;
-  }
-
-  public void setProximityBuffer(int proximityBuffer) {
-    this.proximityBuffer = proximityBuffer;
   }
 
   public void setDefaultProximityBuffer() {
@@ -43,7 +40,7 @@ public class RewardsService {
 
     for (VisitedLocation visitedLocation : userLocations) {
       for (Attraction attraction : attractions) {
-        if (user.getUserRewards().stream().filter(r -> r.attraction.attractionName.equals(attraction.attractionName)).count() == 0) {
+        if (user.getUserRewards().stream().noneMatch(r -> r.attraction.attractionName.equals(attraction.attractionName))) {
           if (nearAttraction(visitedLocation, attraction)) {
             user.addUserReward(new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user)));
           }
@@ -53,6 +50,7 @@ public class RewardsService {
   }
 
   public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
+    int attractionProximityRange = ApplicationConfiguation.ATTRACTION_PROXIMITY_RANGE;
     return !(getDistance(attraction, location) > attractionProximityRange);
   }
 
@@ -74,16 +72,13 @@ public class RewardsService {
             + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2));
 
     double nauticalMiles = 60 * Math.toDegrees(angle);
-    double statuteMiles = STATUTE_MILES_PER_NAUTICAL_MILE * nauticalMiles;
-    return statuteMiles;
+    return STATUTE_MILES_PER_NAUTICAL_MILE * nauticalMiles;
   }
 
   public void parallelCalculateRewardsUsersList(List<User> allUsers) {
     ForkJoinPool customThreadPool = new ForkJoinPool(ApplicationConfiguation.MAX_THREAD_REWARD);
 
-    customThreadPool.submit(() -> {
-      allUsers.stream().parallel().forEach(this::calculateRewards);
-    }).join();
+    customThreadPool.submit(() -> allUsers.stream().parallel().forEach(this::calculateRewards)).join();
 
     customThreadPool.shutdown();
   }

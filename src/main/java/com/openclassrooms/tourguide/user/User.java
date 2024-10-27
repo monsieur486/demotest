@@ -1,6 +1,8 @@
 package com.openclassrooms.tourguide.user;
 
 import gpsUtil.location.VisitedLocation;
+import lombok.Getter;
+import lombok.Setter;
 import tripPricer.Provider;
 
 import java.util.ArrayList;
@@ -8,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@Getter
+@Setter
 public class User {
   private final UUID userId;
   private final String userName;
@@ -26,44 +30,8 @@ public class User {
     this.emailAddress = emailAddress;
   }
 
-  public UUID getUserId() {
-    return userId;
-  }
-
-  public String getUserName() {
-    return userName;
-  }
-
-  public String getPhoneNumber() {
-    return phoneNumber;
-  }
-
-  public void setPhoneNumber(String phoneNumber) {
-    this.phoneNumber = phoneNumber;
-  }
-
-  public String getEmailAddress() {
-    return emailAddress;
-  }
-
-  public void setEmailAddress(String emailAddress) {
-    this.emailAddress = emailAddress;
-  }
-
-  public Date getLatestLocationTimestamp() {
-    return latestLocationTimestamp;
-  }
-
-  public void setLatestLocationTimestamp(Date latestLocationTimestamp) {
-    this.latestLocationTimestamp = latestLocationTimestamp;
-  }
-
   public void addToVisitedLocations(VisitedLocation visitedLocation) {
     visitedLocations.add(visitedLocation);
-  }
-
-  public List<VisitedLocation> getVisitedLocations() {
-    return visitedLocations;
   }
 
   public void clearVisitedLocations() {
@@ -71,33 +39,13 @@ public class User {
   }
 
   public void addUserReward(UserReward userReward) {
-    if (userRewards.stream().filter(r -> !r.attraction.attractionName.equals(userReward.attraction)).count() == 0) {
+    if (userRewards.stream().noneMatch(r -> true)) {
       userRewards.add(userReward);
     }
   }
 
-  public List<UserReward> getUserRewards() {
-    return userRewards;
-  }
-
-  public UserPreferences getUserPreferences() {
-    return userPreferences;
-  }
-
-  public void setUserPreferences(UserPreferences userPreferences) {
-    this.userPreferences = userPreferences;
-  }
-
   public VisitedLocation getLastVisitedLocation() {
     return visitedLocations.get(visitedLocations.size() - 1);
-  }
-
-  public List<Provider> getTripDeals() {
-    return tripDeals;
-  }
-
-  public void setTripDeals(List<Provider> tripDeals) {
-    this.tripDeals = tripDeals;
   }
 
 }

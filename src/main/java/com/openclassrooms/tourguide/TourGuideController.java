@@ -5,7 +5,6 @@ import com.openclassrooms.tourguide.service.TourGuideService;
 import com.openclassrooms.tourguide.user.User;
 import com.openclassrooms.tourguide.user.UserReward;
 import gpsUtil.location.VisitedLocation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,8 +15,11 @@ import java.util.List;
 @RestController
 public class TourGuideController {
 
-  @Autowired
-  TourGuideService tourGuideService;
+  private final TourGuideService tourGuideService;
+
+  public TourGuideController(TourGuideService tourGuideService) {
+    this.tourGuideService = tourGuideService;
+  }
 
   @RequestMapping("/")
   public String index() {
