@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   tourguide:
     image: monsieur486/projet08:latest
