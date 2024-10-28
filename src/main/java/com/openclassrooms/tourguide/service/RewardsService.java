@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import rewardCentral.RewardCentral;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -49,7 +48,7 @@ public class RewardsService {
 
     for (VisitedLocation visitedLocation : userLocations) {
       for (Attraction attraction : attractions) {
-        if(rewards.stream().noneMatch(r -> r.attraction.attractionName.equals(attraction.attractionName))){
+        if (rewards.stream().noneMatch(r -> r.attraction.attractionName.equals(attraction.attractionName))) {
           if (nearAttraction(visitedLocation, attraction)) {
             UserReward userReward = new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user));
             rewards.add(userReward);
