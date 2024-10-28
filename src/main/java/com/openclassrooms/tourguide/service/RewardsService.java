@@ -8,14 +8,19 @@ import gpsUtil.location.Attraction;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import rewardCentral.RewardCentral;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ForkJoinPool;
 
 @Service
+@Slf4j
 public class RewardsService {
   private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
   private final GpsUtil gpsUtil;
@@ -35,18 +40,26 @@ public class RewardsService {
   }
 
   public void calculateRewards(User user) {
-    List<Attraction> attractions = gpsUtil.getAttractions();
+
     CopyOnWriteArrayList<VisitedLocation> userLocations = new CopyOnWriteArrayList<>(user.getVisitedLocations());
+    List<Attraction> attractions = new ArrayList<>();
+    attractions = gpsUtil.getAttractions();
+
+    List<UserReward> rewards = Collections.synchronizedList(new ArrayList<>());
 
     for (VisitedLocation visitedLocation : userLocations) {
       for (Attraction attraction : attractions) {
-        if (user.getUserRewards().stream().noneMatch(r -> r.attraction.attractionName.equals(attraction.attractionName))) {
+        if(rewards.stream().noneMatch(r -> r.attraction.attractionName.equals(attraction.attractionName))){
           if (nearAttraction(visitedLocation, attraction)) {
-            user.addUserReward(new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user)));
+            UserReward userReward = new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user));
+            rewards.add(userReward);
           }
         }
       }
     }
+
+    user.setUserRewards(rewards);
+
   }
 
   public boolean isWithinAttractionProximity(Attraction attraction, Location location) {

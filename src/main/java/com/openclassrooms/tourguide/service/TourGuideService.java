@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
 import java.util.concurrent.ForkJoinPool;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -75,7 +74,7 @@ public class TourGuideService {
   }
 
   public List<User> getAllUsers() {
-    return internalUserMap.values().stream().collect(Collectors.toList());
+    return new ArrayList<>(internalUserMap.values());
   }
 
   public void addUser(User user) {

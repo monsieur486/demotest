@@ -16,7 +16,8 @@ public class User {
   private final UUID userId;
   private final String userName;
   private final List<VisitedLocation> visitedLocations = new ArrayList<>();
-  private final List<UserReward> userRewards = new ArrayList<>();
+  @Setter
+  private List<UserReward> userRewards = new ArrayList<>();
   private String phoneNumber;
   private String emailAddress;
   private Date latestLocationTimestamp;
