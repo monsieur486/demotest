@@ -60,11 +60,15 @@ public class TestPerformance {
 
     StopWatch stopWatch = new StopWatch();
     stopWatch.start();
-    //    for (User user : allUsers) {
-    //      tourGuideService.trackUserLocation(user);
-    //    }
 
-    tourGuideService.parallelTrackAllUsersLocation(allUsers);
+    if (ApplicationConfiguation.PARALLEL_PROCESSING) {
+      tourGuideService.parallelTrackAllUsersLocation(allUsers);
+    } else {
+      for (User user : allUsers) {
+        tourGuideService.trackUserLocation(user);
+      }
+    }
+
     stopWatch.stop();
     tourGuideService.tracker.stopTracking();
 
