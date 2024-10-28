@@ -7,7 +7,7 @@ public class ApplicationConfiguation {
 
   public final static boolean TEST_MODE = true;
 
-  public final static int INTERNAL_TEST_USER_NUMBER = 1;
+  public final static int INTERNAL_TEST_USER_NUMBER = 100;
 
   public final static int MAX_THREAD_TRACK = 5000;
 
