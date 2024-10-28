@@ -1,9 +1,7 @@
 version: '3.9'
 services:
-  apache:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  tourguide:
+    image: monsieur486/projet08:latest
     container_name: tourguide
     ports:
       - '8080:8080'
