@@ -1,6 +1,5 @@
 package com.openclassrooms.tourguide.service;
 
-import com.openclassrooms.tourguide.configuration.ApplicationConfiguation;
 import com.openclassrooms.tourguide.user.User;
 import com.openclassrooms.tourguide.user.UserReward;
 import gpsUtil.GpsUtil;
@@ -20,11 +19,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class TourGuideServiceTest {
 
   private TourGuideService tourGuideService;
-  private GpsUtil gpsUtil;
 
   @BeforeEach
   void setUp() {
-    gpsUtil = Mockito.mock(GpsUtil.class);
+    GpsUtil gpsUtil = Mockito.mock(GpsUtil.class);
     RewardCentral rewardCentral = Mockito.mock(RewardCentral.class);
     RewardsService rewardsService = new RewardsService(gpsUtil, rewardCentral);
     tourGuideService = new TourGuideService(gpsUtil, rewardsService);
