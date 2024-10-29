@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ForkJoinPool;
 
+/**
+ * Service class for calculating rewards for users based on their visited locations and nearby attractions.
+ */
 @Service
 @Slf4j
 public class RewardsService {
@@ -29,21 +32,32 @@ public class RewardsService {
   @Setter
   private int proximityBuffer = defaultProximityBuffer;
 
+  /**
+   * Constructor for RewardsService.
+   *
+   * @param gpsUtil the GPS utility service
+   * @param rewardCentral the reward central service
+   */
   public RewardsService(GpsUtil gpsUtil, RewardCentral rewardCentral) {
     this.gpsUtil = gpsUtil;
     this.rewardsCentral = rewardCentral;
   }
 
+  /**
+   * Sets the proximity buffer to the default value.
+   */
   public void setDefaultProximityBuffer() {
     proximityBuffer = defaultProximityBuffer;
   }
 
+  /**
+   * Calculates rewards for a user based on their visited locations and nearby attractions.
+   *
+   * @param user the user
+   */
   public void calculateRewards(User user) {
-
     CopyOnWriteArrayList<VisitedLocation> userLocations = new CopyOnWriteArrayList<>(user.getVisitedLocations());
-    List<Attraction> attractions = new ArrayList<>();
-    attractions = gpsUtil.getAttractions();
-
+    List<Attraction> attractions = gpsUtil.getAttractions();
     List<UserReward> rewards = Collections.synchronizedList(new ArrayList<>());
 
     for (VisitedLocation visitedLocation : userLocations) {
@@ -58,22 +72,49 @@ public class RewardsService {
     }
 
     user.setUserRewards(rewards);
-
   }
 
+  /**
+   * Checks if a location is within the proximity of an attraction.
+   *
+   * @param attraction the attraction
+   * @param location the location
+   * @return true if within proximity, false otherwise
+   */
   public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
     int attractionProximityRange = ApplicationConfiguation.ATTRACTION_PROXIMITY_RANGE;
     return !(getDistance(attraction, location) > attractionProximityRange);
   }
 
+  /**
+   * Checks if a visited location is near an attraction.
+   *
+   * @param visitedLocation the visited location
+   * @param attraction the attraction
+   * @return true if near, false otherwise
+   */
   private boolean nearAttraction(VisitedLocation visitedLocation, Attraction attraction) {
     return !(getDistance(attraction, visitedLocation.location) > proximityBuffer);
   }
 
+  /**
+   * Gets the reward points for a user at a specific attraction.
+   *
+   * @param attraction the attraction
+   * @param user the user
+   * @return the reward points
+   */
   public int getRewardPoints(Attraction attraction, User user) {
     return rewardsCentral.getAttractionRewardPoints(attraction.attractionId, user.getUserId());
   }
 
+  /**
+   * Calculates the distance between two locations.
+   *
+   * @param loc1 the first location
+   * @param loc2 the second location
+   * @return the distance in miles
+   */
   public double getDistance(Location loc1, Location loc2) {
     double lat1 = Math.toRadians(loc1.latitude);
     double lon1 = Math.toRadians(loc1.longitude);
@@ -87,6 +128,11 @@ public class RewardsService {
     return STATUTE_MILES_PER_NAUTICAL_MILE * nauticalMiles;
   }
 
+  /**
+   * Calculates rewards for a list of users in parallel.
+   *
+   * @param allUsers the list of all users
+   */
   public void parallelCalculateRewardsUsersList(List<User> allUsers) {
     ForkJoinPool customThreadPool = new ForkJoinPool(ApplicationConfiguation.MAX_THREAD_REWARD);
 
@@ -94,5 +140,4 @@ public class RewardsService {
 
     customThreadPool.shutdown();
   }
-
 }
