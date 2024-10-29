@@ -54,7 +54,7 @@ public class Tracker extends Thread {
       }
 
       stopWatch.stop();
-      logger.debug("!!! END !!! Tracker Time Elapsed: {} seconds. for {} users.",
+      logger.debug("!!! END !!! Tracker Time Elapsed: {} seconds for {} users.",
               TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()),
               users.size());
       stopWatch.reset();
