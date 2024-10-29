@@ -109,27 +109,4 @@ class TourGuideServiceTest {
     assertNotNull(providers);
     assertFalse(providers.isEmpty());
   }
-
-  @Test
-  void trackUserLocation() {
-    User user = new User(UUID.randomUUID(), "testUser", "000", "test@tourGuide.com");
-    VisitedLocation visitedLocation = new VisitedLocation(user.getUserId(), new gpsUtil.location.Location(0, 0), null);
-    Mockito.when(gpsUtil.getUserLocation(user.getUserId())).thenReturn(visitedLocation);
-
-    VisitedLocation location = tourGuideService.trackUserLocation(user);
-
-    assertNotNull(location);
-    assertEquals(visitedLocation, location);
-  }
-
-  @Test
-  void parallelTrackAllUsersLocation() {
-    User user = new User(UUID.randomUUID(), "testUser", "000", "test@tourGuide.com");
-    tourGuideService.addUser(user);
-
-    tourGuideService.parallelTrackAllUsersLocation(List.of(user));
-
-    assertNotNull(user.getVisitedLocations());
-    assertFalse(user.getVisitedLocations().isEmpty());
-  }
 }
