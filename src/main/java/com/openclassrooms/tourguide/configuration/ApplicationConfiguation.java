@@ -7,7 +7,7 @@ public class ApplicationConfiguation {
 
   public final static boolean TEST_MODE = true;
 
-  public final static int INTERNAL_TEST_USER_NUMBER = 100;
+  public final static int INTERNAL_TEST_USER_NUMBER = 10;
 
   public final static boolean PARALLEL_PROCESSING = true;
 

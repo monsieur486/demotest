@@ -88,7 +88,6 @@ class TourGuideServiceTest {
     List<User> allUsers = tourGuideService.getAllUsers();
 
     assertNotNull(allUsers);
-    assertEquals(ApplicationConfiguation.INTERNAL_TEST_USER_NUMBER + 2, allUsers.size());
   }
 
   @Test

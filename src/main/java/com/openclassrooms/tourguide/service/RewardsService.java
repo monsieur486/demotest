@@ -68,7 +68,6 @@ public class RewardsService {
           if (nearAttraction(visitedLocation, attraction)) {
             UserReward userReward = new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user));
             rewards.add(userReward);
-            log.warn("User {} add reward {}", user.getUserName(), userReward.attraction.attractionName);
           }
         }
       }
