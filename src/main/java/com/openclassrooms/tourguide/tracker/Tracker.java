@@ -43,7 +43,7 @@ public class Tracker extends Thread {
       }
 
       List<User> users = tourGuideService.getAllUsers();
-      logger.debug("Begin Tracker. Tracking " + users.size() + " users.");
+      logger.debug("Begin Tracker. Tracking {} users.", users.size());
       stopWatch.start();
       if (ApplicationConfiguation.PARALLEL_PROCESSING) {
         logger.debug("Tracker is using parallel processing");
