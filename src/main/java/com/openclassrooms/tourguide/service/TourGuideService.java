@@ -47,7 +47,7 @@ public class TourGuideService {
   /**
    * Constructor for TourGuideService.
    *
-   * @param gpsUtil the GPS utility service
+   * @param gpsUtil        the GPS utility service
    * @param rewardsService the rewards service
    */
   public TourGuideService(GpsUtil gpsUtil, RewardsService rewardsService) {
@@ -159,7 +159,7 @@ public class TourGuideService {
    * Gets nearby attractions for a user.
    *
    * @param visitedLocation the visited location
-   * @param user the user
+   * @param user            the user
    * @return the list of nearby attractions
    */
   public List<AttractionNearbyUserDto> getNearByAttractions(VisitedLocation visitedLocation, User user) {

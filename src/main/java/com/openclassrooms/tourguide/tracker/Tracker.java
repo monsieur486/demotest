@@ -45,7 +45,7 @@ public class Tracker extends Thread {
       List<User> users = tourGuideService.getAllUsers();
       logger.debug("Begin Tracker. Tracking " + users.size() + " users.");
       stopWatch.start();
-      if(ApplicationConfiguation.PARALLEL_PROCESSING) {
+      if (ApplicationConfiguation.PARALLEL_PROCESSING) {
         tourGuideService.parallelTrackAllUsersLocation(users);
       } else {
         users.forEach(tourGuideService::trackUserLocation);

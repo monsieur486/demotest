@@ -37,7 +37,7 @@ public class RewardsService {
   /**
    * Constructor for RewardsService.
    *
-   * @param gpsUtil the GPS utility service
+   * @param gpsUtil       the GPS utility service
    * @param rewardCentral the reward central service
    */
   public RewardsService(GpsUtil gpsUtil, RewardCentral rewardCentral) {
@@ -81,7 +81,7 @@ public class RewardsService {
    * Checks if a location is within the proximity of an attraction.
    *
    * @param attraction the attraction
-   * @param location the location
+   * @param location   the location
    * @return true if within proximity, false otherwise
    */
   public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
@@ -93,7 +93,7 @@ public class RewardsService {
    * Checks if a visited location is near an attraction.
    *
    * @param visitedLocation the visited location
-   * @param attraction the attraction
+   * @param attraction      the attraction
    * @return true if near, false otherwise
    */
   private boolean nearAttraction(VisitedLocation visitedLocation, Attraction attraction) {
@@ -104,7 +104,7 @@ public class RewardsService {
    * Gets the reward points for a user at a specific attraction.
    *
    * @param attraction the attraction
-   * @param user the user
+   * @param user       the user
    * @return the reward points
    */
   public int getRewardPoints(Attraction attraction, User user) {
