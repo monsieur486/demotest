@@ -46,13 +46,15 @@ public class Tracker extends Thread {
       logger.debug("Begin Tracker. Tracking " + users.size() + " users.");
       stopWatch.start();
       if (ApplicationConfiguation.PARALLEL_PROCESSING) {
+        logger.debug("Tracker is using parallel processing");
         tourGuideService.parallelTrackAllUsersLocation(users);
       } else {
+        logger.debug("Tracker is using sequential processing");
         users.forEach(tourGuideService::trackUserLocation);
       }
 
       stopWatch.stop();
-      logger.debug("Tracker Time Elapsed: {} seconds. for {} users.",
+      logger.debug("!!! END !!! Tracker Time Elapsed: {} seconds. for {} users.",
               TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()),
               users.size());
       stopWatch.reset();
