@@ -52,7 +52,9 @@ public class Tracker extends Thread {
       }
 
       stopWatch.stop();
-      logger.debug("Tracker Time Elapsed: " + TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()) + " seconds.");
+      logger.debug("Tracker Time Elapsed: {} seconds. for {} users.",
+              TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()),
+              users.size());
       stopWatch.reset();
       try {
         logger.debug("Tracker sleeping");
