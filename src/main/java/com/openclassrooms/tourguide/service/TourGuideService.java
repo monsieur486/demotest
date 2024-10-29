@@ -175,8 +175,8 @@ public class TourGuideService {
     nearbyAttractions.sort(Comparator.comparing(AttractionNearbyUserDto::getDistance));
 
     // Limit to 5 attractions
-    if (nearbyAttractions.size() > ApplicationConfiguation.MAX_ATTRACTION_TO_SEARCH) {
-      nearbyAttractions = nearbyAttractions.subList(0, ApplicationConfiguation.MAX_ATTRACTION_TO_SEARCH);
+    if (nearbyAttractions.size() > ApplicationConfiguation.MAX_ATTRACTION_TO_SHOW) {
+      nearbyAttractions = nearbyAttractions.subList(0, ApplicationConfiguation.MAX_ATTRACTION_TO_SHOW);
     }
 
     return nearbyAttractions;
