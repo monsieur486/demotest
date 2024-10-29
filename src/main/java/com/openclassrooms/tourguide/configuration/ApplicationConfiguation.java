@@ -17,5 +17,7 @@ public class ApplicationConfiguation {
 
   public final static int ATTRACTION_PROXIMITY_RANGE = 200;
 
+  public final static int MAX_ATTRACTION_TO_SEARCH = 5;
+
 
 }

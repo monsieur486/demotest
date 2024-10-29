@@ -171,11 +171,12 @@ public class TourGuideService {
       nearbyAttractions.add(attractionNearbyUserDto);
     }
 
+    // Sort by distance
     nearbyAttractions.sort(Comparator.comparing(AttractionNearbyUserDto::getDistance));
 
-    if (nearbyAttractions.size() > 5) {
-      nearbyAttractions.sort(Comparator.comparing(AttractionNearbyUserDto::getDistance));
-      nearbyAttractions = nearbyAttractions.subList(0, 5);
+    // Limit to 5 attractions
+    if (nearbyAttractions.size() > ApplicationConfiguation.MAX_ATTRACTION_TO_SEARCH) {
+      nearbyAttractions = nearbyAttractions.subList(0, ApplicationConfiguation.MAX_ATTRACTION_TO_SEARCH);
     }
 
     return nearbyAttractions;
