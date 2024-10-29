@@ -7,6 +7,7 @@ import gpsUtil.GpsUtil;
 import gpsUtil.location.Attraction;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class RewardsService {
   // proximity in miles
   private final int defaultProximityBuffer = 10;
   @Setter
+  @Getter
   private int proximityBuffer = defaultProximityBuffer;
 
   /**
@@ -66,6 +68,7 @@ public class RewardsService {
           if (nearAttraction(visitedLocation, attraction)) {
             UserReward userReward = new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user));
             rewards.add(userReward);
+            log.warn("User {} add reward {}", user.getUserName(), userReward.attraction.attractionName);
           }
         }
       }
