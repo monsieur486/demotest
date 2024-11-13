@@ -8,7 +8,6 @@ public class ApplicationConfiguation {
   public final static boolean TEST_MODE = true;
 
   public final static int INTERNAL_TEST_USER_NUMBER = 100;
-  //public final static int INTERNAL_TEST_USER_NUMBER = 100;
 
   public final static boolean PARALLEL_PROCESSING = true;
 
@@ -19,6 +18,5 @@ public class ApplicationConfiguation {
   public final static int ATTRACTION_PROXIMITY_RANGE = 200;
 
   public final static int MAX_ATTRACTION_TO_SHOW = 5;
-
 
 }
