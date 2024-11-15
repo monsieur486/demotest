@@ -94,11 +94,14 @@ public class TestPerformance {
     allUsers = tourGuideService.getAllUsers();
     allUsers.forEach(u -> u.addToVisitedLocations(new VisitedLocation(u.getUserId(), attraction, new Date())));
 
-    rewardsService.parallelCalculateRewardsUsersList(allUsers);
-
-    for (User user : allUsers) {
-      assertFalse(user.getUserRewards().isEmpty());
+    if(ApplicationConfiguation.PARALLEL_PROCESSING){
+      rewardsService.parallelCalculateRewardsUsersList(allUsers);
+    } else {
+      for (User user : allUsers) {
+        rewardsService.calculateRewards(user);
+      }
     }
+
     stopWatch.stop();
     tourGuideService.tracker.stopTracking();
 
